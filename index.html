@@ -1,0 +1,65 @@
+<!doctype html>
+<html ng-app="demo">
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container" ng-controller="userCtrl">
+        <h1>Presentation</h1>
+        <table class="table table-bordered">
+          <tr>
+            <th>Title</th>
+            <th>Room</th>
+            <th>Time</th>
+            <th></th>
+          </tr>
+          <tr ng-repeat="user in users">
+            <td>{{ user.title }}</td>
+            <td>{{ user.room }}</td>
+            <td>{{ user.time }}</td>
+            <td><button ng-click="getUser(user.id)" class="btn btn-primary btn-block">More Detail</button></td>
+          </tr>
+        </table>
+        <div ng-show="detail">
+           <h2>Detail : {{detail.title}}</h2>
+          <dl class="dl-horizontal">
+            <dt>Title</dt>
+            <dd>{{detail.title}}</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Speaker</dt>
+            <dd>{{detail.speaker}}</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Room</dt>
+            <dd>{{detail.room}}</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>{{detail.description}}</dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt>Time</dt>
+            <dd>{{detail.time}}</dd>
+          </dl>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
+    <script>
+        angular
+        .module('demo', [])
+        .controller('userCtrl', function($scope, $http) {
+            $scope.getUser = function(id){
+                $http.get('/api/users/'+id).then(function(e) {
+                    $scope.detail = e.data;
+                });
+            };
+
+            $scop.users = [];
+            $http.get('/api/users').then(function(e) {
+                $scope.users = e.data;
+            });
+        });
+    </script>
+  </body>
+</html>
