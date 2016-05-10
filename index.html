@@ -55,7 +55,7 @@
                 });
             };
 
-            $scop.users = [];
+            $scope.users = [];
             $http.get('/api/users').then(function(e) {
                 $scope.users = e.data;
             });
