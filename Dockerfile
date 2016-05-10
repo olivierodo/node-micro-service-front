@@ -6,4 +6,4 @@ COPY . /usr/src/app
 RUN npm install
 EXPOSE 3000
 
-CMD node /usr/src/app/server.js
+CMD ["node", "server.js"]
